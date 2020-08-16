@@ -32,9 +32,20 @@ pipeline {
       stage('Deploy to Cluster') {
           steps {
                 // withKubeConfig(contextName: 'default', credentialsId: '9a91910b-c106-47bc-bc12-757dfd2ad6a2', namespace: 'default', serverUrl: '${KUBERNETES_API_SERVER}') {
-                    sh 'envsubst < ${WORKSPACE}/influxdb | kubectl apply -f -'
-                    sh 'envsubst < ${WORKSPACE}/telegraf | kubectl apply -f -'
-                    sh 'envsubst < ${WORKSPACE}/grafana | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/influxdb/influxdb-config.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/influxdb/influxdb-data.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/influxdb/influxdb-deployment.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/influxdb/influxdb-secrets.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/influxdb/influxdb-service.yaml | kubectl apply -f -'
+
+                    sh 'envsubst < ${WORKSPACE}/telegraf/telegraf-config.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/telegraf/telegraf-deployment.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/telegraf-secrets.yaml | kubectl apply -f -'
+
+                    sh 'envsubst < ${WORKSPACE}/grafana/grafana-deployment.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/grafana/grafana-service.yaml | kubectl apply -f -'
+                    
+
                 // }
           }
       }
