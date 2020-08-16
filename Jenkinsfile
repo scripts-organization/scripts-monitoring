@@ -40,7 +40,7 @@ pipeline {
 
                     sh 'envsubst < ${WORKSPACE}/telegraf/telegraf-config.yaml | kubectl apply -f -'
                     sh 'envsubst < ${WORKSPACE}/telegraf/telegraf-deployment.yaml | kubectl apply -f -'
-                    sh 'envsubst < ${WORKSPACE}/telegraf-secrets.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/telegraf/telegraf-secrets.yaml | kubectl apply -f -'
 
                     sh 'envsubst < ${WORKSPACE}/grafana/grafana-deployment.yaml | kubectl apply -f -'
                     sh 'envsubst < ${WORKSPACE}/grafana/grafana-service.yaml | kubectl apply -f -'
